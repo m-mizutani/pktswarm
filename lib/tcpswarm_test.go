@@ -1,15 +1,15 @@
-package pktswarm_test
+package tcpswarm_test
 
 import (
 	"testing"
 	"time"
 
-	pktswarm "github.com/m-mizutani/pktswarm/lib"
+	tcpswarm "github.com/m-mizutani/tcpswarm/lib"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestBasic(t *testing.T) {
-	sw, err := pktswarm.New(pktswarm.Config{
+	sw, err := tcpswarm.New(tcpswarm.Config{
 		FileName: "testdata/d1.pcap",
 	})
 	assert.Nil(t, err)

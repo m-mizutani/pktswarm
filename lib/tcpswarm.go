@@ -1,4 +1,4 @@
-package pktswarm
+package tcpswarm
 
 import (
 	"errors"
