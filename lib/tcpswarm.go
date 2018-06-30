@@ -6,12 +6,14 @@ import (
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/pcap"
+	"github.com/m-mizutani/tcpswarm/lib/modules"
+	"github.com/m-mizutani/tcpswarm/lib/modules/session_counter"
 )
 
 // PktSwarm is a main structure
 type PktSwarm struct {
 	pcap     *pcap.Handle
-	handlers []Handler
+	handlers []modules.Handler
 	interval float64
 }
 
@@ -25,24 +27,13 @@ type Config struct {
 
 // Message is data structure of periodic monitoring result
 type Message struct {
-	Reports []Report
-}
-
-// Report is interface of monitoring summary
-type Report interface {
-	String() string
-}
-
-// Handler is a function to summarize packets
-type Handler interface {
-	ReadPacket(pkt *gopacket.Packet)
-	MakeReport() Report
+	Reports []modules.Report
 }
 
 // New is a constructor of PktSwarm
 func New(config Config) (*PktSwarm, error) {
-	handlerMap := map[string](func() Handler){
-		"session": NewSessionCounter,
+	handlerMap := map[string](func() modules.Handler){
+		"session": SessionCounter.New,
 	}
 	swarm := PktSwarm{
 		interval: 1.0,

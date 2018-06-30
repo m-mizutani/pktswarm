@@ -1,10 +1,11 @@
-package tcpswarm
+package SessionCounter
 
 import (
 	"bytes"
 	"fmt"
 
 	"github.com/google/gopacket"
+	"github.com/m-mizutani/tcpswarm/lib/modules"
 )
 
 type ssnCount struct {
@@ -14,23 +15,23 @@ type ssnCount struct {
 
 // SessionCounter is simple counter of session
 type SessionCounter struct {
-	report *SessionCounterReport
+	report *Report
 }
 
-// SessionCounterReport is a report structure for SessionCounter
-type SessionCounterReport struct {
+// Report is a report structure for SessionCounter
+type Report struct {
 	counter map[uint64]int
 }
 
-func newReport() *SessionCounterReport {
-	report := SessionCounterReport{
+func newReport() *Report {
+	report := Report{
 		counter: make(map[uint64]int),
 	}
 	return &report
 }
 
-// NewSessionCounter is a constructor of SessionCounter
-func NewSessionCounter() Handler {
+// New is a constructor of SessionCounter
+func New() modules.Handler {
 	hdlr := SessionCounter{}
 	hdlr.report = newReport()
 	return &hdlr
@@ -102,12 +103,12 @@ func (x *SessionCounter) ReadPacket(pkt *gopacket.Packet) {
 }
 
 // MakeReport is a report writer by stored results of pakcet analysis
-func (x *SessionCounter) MakeReport() Report {
+func (x *SessionCounter) MakeReport() modules.Report {
 	report := x.report
 	x.report = newReport()
 	return report
 }
 
-func (x *SessionCounterReport) String() string {
+func (x *Report) String() string {
 	return fmt.Sprintf("session = %d", len(x.counter))
 }
