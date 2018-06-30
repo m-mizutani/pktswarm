@@ -11,6 +11,7 @@ import (
 func TestBasic(t *testing.T) {
 	sw, err := tcpswarm.New(tcpswarm.Config{
 		FileName: "testdata/d1.pcap",
+		Handlers: []string{"session"},
 	})
 	assert.Nil(t, err)
 
@@ -21,7 +22,7 @@ func TestBasic(t *testing.T) {
 
 	select {
 	case msg := <-ch:
-		assert.NotEqual(t, 0, msg.Count)
+		assert.NotEqual(t, 0, len(msg.Reports))
 		recvCount++
 	case <-time.After(2 * time.Second):
 		timeout = true

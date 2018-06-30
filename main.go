@@ -23,6 +23,7 @@ func main() {
 	swarm, err := tcpswarm.New(tcpswarm.Config{
 		FileName:   opts.PcapFile,
 		DeviceName: opts.Interface,
+		Handlers:   []string{"session"},
 	})
 
 	if err != nil {
@@ -33,6 +34,13 @@ func main() {
 
 	for {
 		msg := <-msgCh
-		fmt.Println(msg)
+		if msg == nil {
+			log.Println("exit")
+			break
+		}
+
+		for _, report := range msg.Reports {
+			fmt.Println(report)
+		}
 	}
 }
