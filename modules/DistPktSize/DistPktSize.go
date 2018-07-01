@@ -34,12 +34,12 @@ type DistPktSize struct {
 
 // Report is a summary of packet distribution
 type Report struct {
-	dmap distMap
+	dmap []distMap
 }
 
 func newReport() *Report {
 	report := Report{
-		dmap: newDistMap(),
+		dmap: []distMap{newDistMap()},
 	}
 	return &report
 }
@@ -53,29 +53,42 @@ func New() modules.Handler {
 
 func (x *DistPktSize) ReadPacket(pkt *gopacket.Packet) {
 	pktSize := len((*pkt).Data())
-	x.report.dmap.count(pktSize)
+	x.report.dmap[len(x.report.dmap)-1].count(pktSize)
 }
 
 func (x *DistPktSize) MakeReport() modules.Report {
-	report := x.report
-	x.report = newReport()
-	return report
+	const maxMapNum = 10
+	report := *x.report
+	x.report.dmap = append(x.report.dmap, newDistMap())
+	if len(x.report.dmap) > maxMapNum {
+		x.report.dmap = x.report.dmap[1:]
+	}
+	return &report
 }
 
 func (x *Report) Title() string {
 	return "Packet Size Distribution"
 }
 
-func (x *Report) String() string {
-	lines := []string{}
-	for idx, upper := range distUnit {
-		d := fmt.Sprintf("...%d", upper)
-		line := fmt.Sprintf("%8s: %6d", d, x.dmap[idx])
-		lines = append(lines, line)
+func distMapToLine(dmap *[]distMap, idx int, label string) string {
+	line := fmt.Sprintf("%8s: ", label)
+	for _, d := range *dmap {
+		line += fmt.Sprintf("%6d ", d[idx])
 	}
 
-	lines = append(lines, fmt.Sprintf("%8s: %6d", "1500...",
-		x.dmap[len(x.dmap)-1]))
+	return line
+}
+
+func (x *Report) String() string {
+	lines := []string{}
+
+	for idx, upper := range distUnit {
+		d := fmt.Sprintf("...%d", upper)
+		lines = append(lines, distMapToLine(&x.dmap, idx, d))
+	}
+
+	lines = append(lines, distMapToLine(&x.dmap, len(distUnit),
+		"1500..."))
 
 	return strings.Join(lines, "\n")
 }
