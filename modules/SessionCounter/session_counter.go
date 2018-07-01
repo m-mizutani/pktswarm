@@ -109,6 +109,10 @@ func (x *SessionCounter) MakeReport() modules.Report {
 	return report
 }
 
+func (x *Report) Title() string {
+	return "Number of TCP/UDP session"
+}
+
 func (x *Report) String() string {
 	return fmt.Sprintf("session = %d", len(x.counter))
 }

@@ -4,6 +4,7 @@ import "github.com/google/gopacket"
 
 // Report is interface of monitoring summary
 type Report interface {
+	Title() string
 	String() string
 }
 

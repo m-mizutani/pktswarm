@@ -10,9 +10,11 @@ import (
 
 func main() {
 	var opts struct {
-		PcapFile  string `short:"r" description:"Read a pcap file "`
-		Interface string `short:"i" description:"Monitor network interface"`
-		Version   bool   `short:"v" long:"version" description:"Show version"`
+		PcapFile  string   `short:"r" description:"Read a pcap file "`
+		Interface string   `short:"i" description:"Monitor network interface"`
+		Interval  float64  `short:"l" long:"interval" description:"Summary output interval"`
+		Modules   []string `short:"m" long:"module" description:"Monitoring modules" default:"session"`
+		Version   bool     `short:"v" long:"version" description:"Show version"`
 	}
 
 	_, err := flags.Parse(&opts)
@@ -23,13 +25,13 @@ func main() {
 	swarm, err := tcpswarm.New(tcpswarm.Config{
 		FileName:   opts.PcapFile,
 		DeviceName: opts.Interface,
-		Handlers:   []string{"session"},
+		Handlers:   opts.Modules,
+		Interval:   opts.Interval,
 	})
 
 	if err != nil {
 		log.Fatal("initialize error:", err)
 	}
-	fmt.Println(swarm)
 	msgCh, err := swarm.Start()
 
 	for {
@@ -39,8 +41,10 @@ func main() {
 			break
 		}
 
+		log.Println("================================")
 		for _, report := range msg.Reports {
-			fmt.Println(report)
+			log.Printf("<< %s >>\n", report.Title())
+			fmt.Println(report.String())
 		}
 	}
 }

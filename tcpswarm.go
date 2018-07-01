@@ -7,6 +7,7 @@ import (
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/pcap"
 	"github.com/m-mizutani/tcpswarm/modules"
+	"github.com/m-mizutani/tcpswarm/modules/DistPktSize"
 	"github.com/m-mizutani/tcpswarm/modules/SessionCounter"
 )
 
@@ -33,7 +34,8 @@ type Message struct {
 // New is a constructor of PktSwarm
 func New(config Config) (*PktSwarm, error) {
 	handlerMap := map[string](func() modules.Handler){
-		"session": SessionCounter.New,
+		"session":     SessionCounter.New,
+		"DistPktSize": DistPktSize.New,
 	}
 	swarm := PktSwarm{
 		interval: 1.0,
@@ -109,7 +111,8 @@ func (x *PktSwarm) Start() (<-chan *Message, error) {
 	go func() {
 		packetSource := gopacket.NewPacketSource(x.pcap, x.pcap.LinkType())
 		pktCh := packetSource.Packets()
-		timeoutCh := time.After(1 * time.Second)
+		delta := time.Duration(x.interval * float64(time.Second))
+		timeoutCh := time.After(delta)
 		defer close(ch)
 
 		for {
@@ -124,7 +127,7 @@ func (x *PktSwarm) Start() (<-chan *Message, error) {
 				}
 			case <-timeoutCh:
 				publishMessage(ch, &x.handlers)
-				timeoutCh = time.After(1 * time.Second)
+				timeoutCh = time.After(delta)
 			}
 		}
 	}()
