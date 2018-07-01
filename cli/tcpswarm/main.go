@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	flags "github.com/jessevdk/go-flags"
 	tcpswarm "github.com/m-mizutani/tcpswarm"
@@ -19,7 +20,7 @@ func main() {
 
 	_, err := flags.Parse(&opts)
 	if err != nil {
-		log.Fatal(err)
+		os.Exit(1)
 	}
 
 	swarm, err := tcpswarm.New(tcpswarm.Config{
