@@ -6,8 +6,8 @@
 
 `tcpswarm` is designed by following concepts.
 
-- **Summarize massive traffic**:
-- **Provide Various Analysis**:
+- **Summarize massive traffic**
+- **Provide Various Analysis**
 
 ## Setup
 
@@ -46,4 +46,4 @@ $ tcpswarm -r dumpfile.pcap
 
 The 2-Clause BSD License.
 
-Image at head of README.md is from [Carbot Animations Wikia](http://carbotanimations.wikia.com/wiki/Zergling)
+Image at head of README.md is from [Carbot Animations Wikia](http://carbotanimations.wikia.com/wiki/Zergling) and under [CC BY-NC 3.0](https://creativecommons.org/licenses/by-nc/3.0/)
