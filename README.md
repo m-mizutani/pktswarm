@@ -1,5 +1,7 @@
 # tcpswarm
 
+![swarm](https://user-images.githubusercontent.com/605953/42131293-3b4a7fa4-7d3a-11e8-8e50-f6a23eb0ebf3.png)
+
 `tcpswarm` is a tool to analyze massive TCP/IP traffic instantly. There are useful tools to analyze TCP/IP traffic, e.g. wireshark, tcpdump, tcpstat, etc. However output of the tools can show only information of dozens of packets at once (tcpdump, wireshark) OR coarse-grained summary (tcpstat). It's difficult to understand "what is happening in your network" when troubleshooting.
 
 `tcpswarm` is designed by following concepts.
@@ -43,3 +45,5 @@ $ tcpswarm -r dumpfile.pcap
 ## License
 
 The 2-Clause BSD License.
+
+Image at head of README.md is from [Carbot Animations Wikia](http://carbotanimations.wikia.com/wiki/Zergling)
