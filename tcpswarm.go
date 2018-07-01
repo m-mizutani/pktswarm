@@ -90,6 +90,14 @@ func New(config Config) (*PktSwarm, error) {
 	return &swarm, nil
 }
 
+func publishMessage(ch chan *Message, handlers *[]modules.Handler) {
+	msg := Message{}
+	for _, hdlr := range *handlers {
+		msg.Reports = append(msg.Reports, hdlr.MakeReport())
+	}
+	ch <- &msg
+}
+
 // Start involve monitor loop and returns channel
 func (x *PktSwarm) Start() (<-chan *Message, error) {
 	if x.pcap == nil {
@@ -108,18 +116,14 @@ func (x *PktSwarm) Start() (<-chan *Message, error) {
 			select {
 			case pkt := <-pktCh:
 				if pkt == nil {
+					publishMessage(ch, &x.handlers)
 					return // No more packet
 				}
 				for _, hdlr := range x.handlers {
 					hdlr.ReadPacket(&pkt)
 				}
 			case <-timeoutCh:
-				msg := Message{}
-				for _, hdlr := range x.handlers {
-					msg.Reports = append(msg.Reports, hdlr.MakeReport())
-				}
-				ch <- &msg
-
+				publishMessage(ch, &x.handlers)
 				timeoutCh = time.After(1 * time.Second)
 			}
 		}

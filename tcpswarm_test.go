@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	tcpswarm "github.com/m-mizutani/tcpswarm/lib"
+	"github.com/m-mizutani/tcpswarm"
 	"github.com/stretchr/testify/assert"
 )
 
