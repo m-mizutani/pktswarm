@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/google/gopacket"
-	"github.com/m-mizutani/tcpswarm/lib/modules"
+	"github.com/m-mizutani/tcpswarm/modules"
 )
 
 type ssnCount struct {

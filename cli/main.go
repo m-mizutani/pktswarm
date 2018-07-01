@@ -5,7 +5,7 @@ import (
 	"log"
 
 	flags "github.com/jessevdk/go-flags"
-	tcpswarm "github.com/m-mizutani/tcpswarm/lib"
+	tcpswarm "github.com/m-mizutani/tcpswarm"
 )
 
 func main() {

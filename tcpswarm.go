@@ -6,8 +6,8 @@ import (
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/pcap"
-	"github.com/m-mizutani/tcpswarm/lib/modules"
-	"github.com/m-mizutani/tcpswarm/lib/modules/SessionCounter"
+	"github.com/m-mizutani/tcpswarm/modules"
+	"github.com/m-mizutani/tcpswarm/modules/SessionCounter"
 )
 
 // PktSwarm is a main structure
