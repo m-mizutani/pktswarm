@@ -7,6 +7,7 @@ import (
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/pcap"
 	"github.com/m-mizutani/tcpswarm/modules"
+	"github.com/m-mizutani/tcpswarm/modules/BasicStats"
 	"github.com/m-mizutani/tcpswarm/modules/DistPktSize"
 	"github.com/m-mizutani/tcpswarm/modules/SessionCount"
 )
@@ -36,6 +37,7 @@ func New(config Config) (*PktSwarm, error) {
 	handlerMap := map[string](func() modules.Handler){
 		"SessionCount": SessionCount.New,
 		"DistPktSize":  DistPktSize.New,
+		"BasicStats":   BasicStats.New,
 	}
 	swarm := PktSwarm{
 		interval: 1.0,
