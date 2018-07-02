@@ -8,7 +8,7 @@ import (
 	"github.com/google/gopacket/pcap"
 	"github.com/m-mizutani/tcpswarm/modules"
 	"github.com/m-mizutani/tcpswarm/modules/DistPktSize"
-	"github.com/m-mizutani/tcpswarm/modules/SessionCounter"
+	"github.com/m-mizutani/tcpswarm/modules/SessionCount"
 )
 
 // PktSwarm is a main structure
@@ -34,8 +34,8 @@ type Message struct {
 // New is a constructor of PktSwarm
 func New(config Config) (*PktSwarm, error) {
 	handlerMap := map[string](func() modules.Handler){
-		"session":     SessionCounter.New,
-		"DistPktSize": DistPktSize.New,
+		"SessionCount": SessionCount.New,
+		"DistPktSize":  DistPktSize.New,
 	}
 	swarm := PktSwarm{
 		interval: 1.0,

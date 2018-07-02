@@ -1,4 +1,4 @@
-package SessionCounter
+package SessionCount
 
 import (
 	"bytes"
