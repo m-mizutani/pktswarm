@@ -16,6 +16,7 @@ func main() {
 		Interval  float64  `short:"d" long:"interval" description:"Summary output interval"`
 		Modules   []string `short:"m" long:"module" description:"Monitoring modules" default:"BasicStats"`
 		Version   bool     `short:"v" long:"version" description:"Show version"`
+		Quiet     bool     `short:"q" long:"quiet" description:"Show only report body"`
 	}
 
 	_, err := flags.Parse(&opts)
@@ -42,9 +43,13 @@ func main() {
 			break
 		}
 
-		log.Println("================================")
+		if !opts.Quiet {
+			log.Println("================================")
+		}
 		for _, report := range msg.Reports {
-			log.Printf("<< %s >>\n", report.Title())
+			if !opts.Quiet {
+				log.Printf("<< %s >>\n", report.Title())
+			}
 			fmt.Println(report.String())
 		}
 	}
