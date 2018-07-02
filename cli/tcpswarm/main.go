@@ -13,7 +13,7 @@ func main() {
 	var opts struct {
 		PcapFile  string   `short:"r" description:"Read a pcap file "`
 		Interface string   `short:"i" description:"Monitor network interface"`
-		Interval  float64  `short:"l" long:"interval" description:"Summary output interval"`
+		Interval  float64  `short:"d" long:"interval" description:"Summary output interval"`
 		Modules   []string `short:"m" long:"module" description:"Monitoring modules" default:"BasicStats"`
 		Version   bool     `short:"v" long:"version" description:"Show version"`
 	}
