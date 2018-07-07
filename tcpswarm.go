@@ -2,6 +2,8 @@ package tcpswarm
 
 import (
 	"errors"
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/google/gopacket"
@@ -12,14 +14,14 @@ import (
 	"github.com/m-mizutani/tcpswarm/modules/SessionCount"
 )
 
-// PktSwarm is a main structure
-type PktSwarm struct {
+// TcpSwarm is a main structure
+type TcpSwarm struct {
 	pcap     *pcap.Handle
 	handlers []modules.Handler
 	interval float64
 }
 
-// Config for PktSwarm constructor
+// Config for TcpSwarm constructor
 type Config struct {
 	DeviceName string
 	FileName   string
@@ -32,14 +34,14 @@ type Message struct {
 	Reports []modules.Report
 }
 
-// New is a constructor of PktSwarm
-func New(config Config) (*PktSwarm, error) {
+// New is a constructor of TcpSwarm
+func New(config Config) (*TcpSwarm, error) {
 	handlerMap := map[string](func() modules.Handler){
 		"SessionCount": SessionCount.New,
 		"DistPktSize":  DistPktSize.New,
 		"BasicStats":   BasicStats.New,
 	}
-	swarm := PktSwarm{
+	swarm := TcpSwarm{
 		interval: 1.0,
 	}
 
@@ -103,7 +105,7 @@ func publishMessage(ch chan *Message, handlers *[]modules.Handler) {
 }
 
 // Start involve monitor loop and returns channel
-func (x *PktSwarm) Start() (<-chan *Message, error) {
+func (x *TcpSwarm) Start() (<-chan *Message, error) {
 	if x.pcap == nil {
 		return nil, errors.New("Network interface is not available")
 	}
@@ -134,4 +136,32 @@ func (x *PktSwarm) Start() (<-chan *Message, error) {
 		}
 	}()
 	return ch, nil
+}
+
+func (x *Message) Header() string {
+	var items []string
+	for _, report := range x.Reports {
+		items = append(items, report.Header()...)
+	}
+
+	var row []string
+	for _, item := range items {
+		row = append(row, fmt.Sprintf("%10s", item))
+	}
+
+	return strings.Join(row, " ")
+}
+
+func (x *Message) Line() string {
+	var items []string
+	for _, report := range x.Reports {
+		items = append(items, report.Row()...)
+	}
+
+	var row []string
+	for _, item := range items {
+		row = append(row, fmt.Sprintf("%10s", item))
+	}
+
+	return strings.Join(row, " ")
 }

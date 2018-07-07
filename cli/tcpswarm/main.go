@@ -7,6 +7,7 @@ import (
 
 	flags "github.com/jessevdk/go-flags"
 	tcpswarm "github.com/m-mizutani/tcpswarm"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 func main() {
@@ -35,6 +36,14 @@ func main() {
 		log.Fatal("initialize error:", err)
 	}
 	msgCh, err := swarm.Start()
+	cnt := 0
+
+	_, height, err := terminal.GetSize(0)
+	if err != nil {
+		height = 10
+	} else if height > 2 {
+		height -= 2
+	}
 
 	for {
 		msg := <-msgCh
@@ -43,14 +52,11 @@ func main() {
 			break
 		}
 
-		if !opts.Quiet {
-			log.Println("================================")
+		if cnt%height == 0 {
+			fmt.Println(msg.Header())
 		}
-		for _, report := range msg.Reports {
-			if !opts.Quiet {
-				log.Printf("<< %s >>\n", report.Title())
-			}
-			fmt.Println(report.String())
-		}
+		cnt++
+
+		fmt.Println(msg.Line())
 	}
 }

@@ -6,6 +6,8 @@ import "github.com/google/gopacket"
 type Report interface {
 	Title() string
 	String() string
+	Header() []string
+	Row() []string
 }
 
 // Handler is a function to summarize packets

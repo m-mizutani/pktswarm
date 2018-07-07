@@ -113,3 +113,36 @@ func (x *Report) String() string {
 
 	return strings.Join(items, "\t")
 }
+
+func (x *Report) Header() []string {
+	return []string{
+		"pktCount",
+		"pktSize",
+		"tcpCount",
+		"tcpSize",
+		"udpCount",
+		"udpSize",
+		"icmp4Count",
+		"icmp4Size",
+		"icmp6Count",
+		"icmp6Size",
+	}
+}
+
+// String to convert data to string
+func (x *Report) Row() []string {
+	f := x.frames[len(x.frames)-1]
+	items := []string{
+		fmt.Sprintf("%d", f.pktCount),
+		fmt.Sprintf("%d", f.pktSize),
+		fmt.Sprintf("%d", f.tcpCount),
+		fmt.Sprintf("%d", f.tcpSize),
+		fmt.Sprintf("%d", f.udpCount),
+		fmt.Sprintf("%d", f.udpSize),
+		fmt.Sprintf("%d", f.icmp4Count),
+		fmt.Sprintf("%d", f.icmp4Size),
+		fmt.Sprintf("%d", f.icmp6Count),
+		fmt.Sprintf("%d", f.icmp6Size),
+	}
+	return items
+}

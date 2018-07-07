@@ -92,3 +92,22 @@ func (x *Report) String() string {
 
 	return strings.Join(lines, "\n")
 }
+
+func (x *Report) Header() []string {
+	hdr := []string{}
+
+	for _, upper := range distUnit {
+		hdr = append(hdr, fmt.Sprintf("~%d", upper))
+	}
+
+	hdr = append(hdr, "1500~")
+	return hdr
+}
+
+func (x *Report) Row() []string {
+	row := []string{}
+	for _, d := range x.dmap[len(x.dmap)-1] {
+		row = append(row, fmt.Sprintf("%d", d))
+	}
+	return row
+}

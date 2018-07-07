@@ -116,3 +116,13 @@ func (x *Report) Title() string {
 func (x *Report) String() string {
 	return fmt.Sprintf("session = %d", len(x.counter))
 }
+
+func (x *Report) Header() []string {
+	return []string{"Session"}
+}
+
+func (x *Report) Row() []string {
+	return []string{
+		fmt.Sprintf("%d", len(x.counter)),
+	}
+}
