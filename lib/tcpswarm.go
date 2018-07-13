@@ -8,10 +8,10 @@ import (
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/pcap"
-	"github.com/m-mizutani/tcpswarm/modules"
-	"github.com/m-mizutani/tcpswarm/modules/BasicStats"
-	"github.com/m-mizutani/tcpswarm/modules/DistPktSize"
-	"github.com/m-mizutani/tcpswarm/modules/SessionCount"
+	"github.com/m-mizutani/tcpswarm/lib/modules"
+	"github.com/m-mizutani/tcpswarm/lib/modules/BasicStats"
+	"github.com/m-mizutani/tcpswarm/lib/modules/DistPktSize"
+	"github.com/m-mizutani/tcpswarm/lib/modules/SessionCount"
 )
 
 // TcpSwarm is a main structure

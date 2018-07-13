@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
-	"github.com/m-mizutani/tcpswarm/modules"
+	"github.com/m-mizutani/tcpswarm/lib/modules"
 )
 
 type frame struct {

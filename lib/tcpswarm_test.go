@@ -4,14 +4,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/m-mizutani/tcpswarm"
+	"github.com/m-mizutani/tcpswarm/lib"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestBasic(t *testing.T) {
 	sw, err := tcpswarm.New(tcpswarm.Config{
-		FileName: "testdata/d1.pcap",
-		Handlers: []string{"session"},
+		FileName: "../testdata/d1.pcap",
+		Handlers: []string{"SessionCount"},
 	})
 	assert.Nil(t, err)
 

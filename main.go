@@ -6,7 +6,7 @@ import (
 	"os"
 
 	flags "github.com/jessevdk/go-flags"
-	tcpswarm "github.com/m-mizutani/tcpswarm"
+	"github.com/m-mizutani/tcpswarm/lib"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
