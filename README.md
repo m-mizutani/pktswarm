@@ -37,7 +37,7 @@ $ tcpswarm -r dumpfile.pcap
 
 - `-r`: Specify a pcap format file to read saved packet data.
 - `-i`: Specify a network interface to capture packets.
-- `-l`, `--interval`: Set interval to output result by float number.
+- `-d`, `--interval`: Set interval to output result by float number.
 - `-m`, `--module`: Specify analyzing module from following list. This option can be put multiple times.
   - `session`: Show number of TCP/UDP sessions
   - `DistPktSize`: Show latest packet size distributions during interval and 9 previous distribution also.
