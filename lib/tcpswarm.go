@@ -14,8 +14,8 @@ import (
 	"github.com/m-mizutani/tcpswarm/lib/modules/SessionCount"
 )
 
-// TcpSwarm is a main structure
-type TcpSwarm struct {
+// TCPSwarm is a main structure
+type TCPSwarm struct {
 	pcap     *pcap.Handle
 	handlers []modules.Handler
 	interval float64
@@ -35,13 +35,13 @@ type Message struct {
 }
 
 // New is a constructor of TcpSwarm
-func New(config Config) (*TcpSwarm, error) {
+func New(config Config) (*TCPSwarm, error) {
 	handlerMap := map[string](func() modules.Handler){
 		"SessionCount": SessionCount.New,
 		"DistPktSize":  DistPktSize.New,
 		"BasicStats":   BasicStats.New,
 	}
-	swarm := TcpSwarm{
+	swarm := TCPSwarm{
 		interval: 1.0,
 	}
 
@@ -105,7 +105,7 @@ func publishMessage(ch chan *Message, handlers *[]modules.Handler) {
 }
 
 // Start involve monitor loop and returns channel
-func (x *TcpSwarm) Start() (<-chan *Message, error) {
+func (x *TCPSwarm) Start() (<-chan *Message, error) {
 	if x.pcap == nil {
 		return nil, errors.New("Network interface is not available")
 	}
@@ -138,6 +138,11 @@ func (x *TcpSwarm) Start() (<-chan *Message, error) {
 	return ch, nil
 }
 
+func (x *TCPSwarm) Stop() error {
+	return nil
+}
+
+// Header converts report(s) to line header
 func (x *Message) Header() string {
 	var items []string
 	for _, report := range x.Reports {
@@ -152,6 +157,7 @@ func (x *Message) Header() string {
 	return strings.Join(row, " ")
 }
 
+// Line converts report(s) to one line text
 func (x *Message) Line() string {
 	var items []string
 	for _, report := range x.Reports {
